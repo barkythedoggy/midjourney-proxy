@@ -1,27 +1,20 @@
 const express = require('express');
-const { Client, GatewayIntentBits } = require('discord.js');
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
-const CHANNEL_ID = process.env.CHANNEL_ID;
-
-const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
-});
-
-client.once('ready', () => {
-  console.log(`Logged in as ${client.user.tag}`);
-});
-
-app.post('/prompt', async (req, res) => {
+app.post('/prompt', (req, res) => {
   const prompt = req.body.prompt;
-  const channel = await client.channels.fetch(CHANNEL_ID);
-  if (!channel) return res.status(404).send({ error: 'Channel not found' });
-
-  await channel.send(`/imagine ${prompt}`);
-  res.send({ success: true });
+  console.log("Received prompt:", prompt);
+  // 回傳確認
+  res.status(200).send({ status: "Prompt received", prompt });
 });
 
-client.login(DISCORD_TOKEN);
-app.listen(3000, () => console.log('Server listening on port 3000'));
+app.get('/', (req, res) => {
+  res.send('MidJourney Proxy is alive!');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
