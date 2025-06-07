@@ -3,7 +3,7 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const app = express();
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
-const CHANNEL_ID = process.env.CHANNEL_ID;
+const CHANNEL_ID = process.env.DISCORD_CHANNEL_ID;
 const PORT = process.env.PORT || 3000;
 
 const client = new Client({
